@@ -39,7 +39,7 @@ forward_euler(5)
 forward_euler(10)
 forward_euler(20)
 
-x,y = forward_heun()
+x,y = forward_euler(100)
 
 def plot_me():
     matplotlib.pyplot.plot(x, y)
