@@ -1,5 +1,6 @@
 import numpy
-import matplotlib.pyplot
+import math
+import matplotlib.pyplot as plt
 
 e = 2.71828
 
@@ -20,8 +21,8 @@ def forward_euler(steps):
     return x,y
 
 #Heun implementeren is me niet gelukt.
-def forward_heun():
-    num_steps = 10
+def forward_heun(steps):
+    num_steps = steps
     x = numpy.zeros(num_steps+2)
     y = numpy.zeros(num_steps+2)
     y[0] = 1
@@ -30,19 +31,28 @@ def forward_heun():
 
     for step in range(num_steps+1):
         x[step + 1] = (step + 1) * h
-        y[step + 1] = y[step] + (h * ((0+x[step]) + (h+y[step]))/2)
-        print(x[step], y[step])
+        y_intermediate = y[step] + h * y[step]
+        y[step + 1] = y[step] + (h/2.0) * (y[step] + y_intermediate)
+
+    print("steps: ", steps, " x: ", x[-2], " y: ", y[-2], "error: ", e - y[-2])
 
     return x,y
 
-forward_euler(5)
-forward_euler(10)
-forward_euler(20)
-
-x,y = forward_euler(100)
+step_sizes = [5, 10, 20]
+for size in step_sizes:
+    print("EULER:")
+    forward_euler(size)
+    print("HEUN:")
+    forward_heun(size)
+    print()
 
 def plot_me():
-    matplotlib.pyplot.plot(x, y)
-    matplotlib.pyplot.show()
+    print("EULER:")
+    x1, y1 = forward_euler(100)
+    print("HEUN:")
+    x2, y2 = forward_heun(100)
+    plt.plot(x1, y1)
+    plt.plot(x2, y2)
+    plt.show()
 
 plot_me()
