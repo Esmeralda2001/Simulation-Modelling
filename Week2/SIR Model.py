@@ -12,8 +12,14 @@ end_time = 60
 num_steps = int(end_time/h)
 times = h * np.array(range(num_steps+1))
 
-print(0.2/(5e-9))
-print(0.2/(transmission_coeff))
+
+def minimum_vaccines():
+    infected_max = 0.2/(transmission_coeff)
+    infected_max_percentage = (infected_max/population)
+
+    percentage_vaccinated = 1-infected_max_percentage
+    minimum_vacc = percentage_vaccinated * population
+    return str(round(minimum_vacc))+" people have to be vaccinated to prevent an epidemic, that is "+str(round(percentage_vaccinated*100, 2))+"% of the population"
 
 def seir_model(latency):
     latency_time = latency
@@ -43,8 +49,6 @@ def seir_model(latency):
 S, E, I, R = seir_model(1)
 S1, E1, I1, R1 = seir_model(2)
 
-print(S[-1]+E[-1]+I[-1]+R[-1])
-
 def plot_me():
     plt.subplot(211)
     plt.plot(times, S, label='Susceptible')
@@ -63,6 +67,7 @@ def plot_me():
     plt.show()
 
 plot_me()
+print(minimum_vaccines())
 
 
 
