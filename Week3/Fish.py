@@ -26,7 +26,7 @@ def logistic_growth():
                 if fish[step+1] <= 0:
                     is_extinct = True
                     fish[step+1] = 0
-        fish_plots.append(plt.plot(times, fish))
+        fish_plots.append(plt.plot(times, fish, label=harvest_rate))
 
     return fish
 
@@ -69,9 +69,9 @@ def harvest():
                     is_extinct = True
                 total_harvest += current_harvest
             results.append([ramp_start, ramp_end, total_harvest])
-    return fish, results
+    return results
 
-fish, results = harvest()
+results = harvest()
 
 for result in results:
     plt.scatter(x=result[0], y=result[1],s=result[2] / 10000, color='b')
@@ -81,16 +81,19 @@ plt.title(label='MSY = .7')
 plt.show()
 
 
-# CODE FOR LOGISTIC GROWTH
-#plot1, = fish_plots[0]
-#plot2, = fish_plots[1]
-#plot3, = fish_plots[2]
-#plot4, = fish_plots[3]
+logistic_growth()
 
-#plt.legend([harvestplot],harvest_rates)
+
+# CODE FOR LOGISTIC GROWTH
+plot1, = fish_plots[0]
+plot2, = fish_plots[1]
+plot3, = fish_plots[2]
+plot4, = fish_plots[3]
+
+plt.legend()
 #axes = plt.gca()
 #axes.set_xlabel('Time in years')
 #axes.set_ylabel('Amount of fish')
 
-#plt.show()
+plt.show()
 
