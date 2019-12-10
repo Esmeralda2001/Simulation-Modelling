@@ -38,21 +38,18 @@ def forward_heun(steps):
 
     return x,y
 
-step_sizes = [5, 10, 20]
-for size in step_sizes:
-    print("EULER:")
-    forward_euler(size)
-    print("HEUN:")
-    forward_heun(size)
-    print()
+step_sizes = [5, 10, 20, 100]
 
-def plot_me():
+def plot_me(s):
     print("EULER:")
-    x1, y1 = forward_euler(100)
+    x1, y1 = forward_euler(s)
     print("HEUN:")
-    x2, y2 = forward_heun(100)
-    plt.plot(x1, y1)
-    plt.plot(x2, y2)
+    x2, y2 = forward_heun(s)
+    plt.plot(x1, y1, label="Euler")
+    plt.plot(x2, y2, label="Heun")
+    plt.legend()
     plt.show()
 
-plot_me()
+for size in step_sizes:
+    plot_me(size)
+    print()
