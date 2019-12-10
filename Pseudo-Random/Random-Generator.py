@@ -4,22 +4,7 @@ import random
 import numpy as np
 import math
 
-
-def random_generator(seed, amount):
-    a = 314
-    c = 459
-    m = 100000
-
-    sequence = []
-    previous = seed
-
-    for i in range(amount):
-        new_num = ((a*previous) + c) % m
-        previous = new_num
-        sequence.append(new_num/m)
-
-    return sequence
-
+# UTILITY FUNCTIONS
 def average(arr):
     avg = 0
     for i in arr:
@@ -46,40 +31,65 @@ def bin_count(bins):
         bin_counter.append(len(bini))
     return bin_counter
 
+# GENERATOR
+def random_generator(seed, amount):
+    a = 314
+    c = 459
+    m = 100000
+
+    sequence = []
+    previous = seed
+
+    for i in range(amount):
+        new_num = ((a*previous) + c) % m
+        previous = new_num
+        sequence.append(new_num/m)
+
+    return sequence
+
+# TEST TO SEE HOW MUCH THE AVERAGES FLUCTUATE DEPENDING ON THE SEED
+def average_fluctuation():
+    averages = []
+    for i in range(1, 100):
+        gener_nums = random_generator(i, 1000)
+        averages.append(average(gener_nums))
+    return "Smallest found average: ", min(averages), " Biggest found average: ", max(averages)
+
+# TEST TO SEE IF THE GENERATOR CAN GREATE UNIFORMLY DISTRIBUTED NUMBERS
 def test_generator():
     for i in range(1, 101):
         generated_nums = random_generator(i, 1000)
         binCounts = bin_count(variation(generated_nums))
-        print(st.chisquare(binCounts))
+        print("Average of generated nums: ", average(generated_nums), st.chisquare(binCounts))
 
+# FUNCTION THAT APPROACHES PI USING THE RANDOM GENERATOR
 def approach_pi():
     C = 0
 
     pi_estimate = []
     smallest_num = []
     indexes_smallest = []
+
     for i in range(1, 100000):
-        x = random_generator(i/10, 1)#random_generator(random.uniform(1, 100), 1)
-        y = random_generator(i+.1/10, 1)#random_generator(random.uniform(1, 100), 1)
+        x = random_generator(i/10, 1)
+        y = random_generator(i+.1/10, 1)
 
         if math.sqrt(x[0]**2 + y[0]**2) <= 1:
             C += 1
         pi_estimate.append(4 * C / (i + 1))
 
     for i in range(len(pi_estimate)):
-        calc = pi_estimate[i]-math.pi
-        if calc <= .000001 and calc >= -.0000001:
-            indexes_smallest.append(i)
-            smallest_num.append(calc)
+        calc = abs(pi_estimate[i]-math.pi)
+        indexes_smallest.append(i)
+        smallest_num.append(calc)
 
-    print(smallest_num.index(min(smallest_num)), min(smallest_num))
-    print(indexes_smallest[1])
-    print(pi_estimate[indexes_smallest[1]])
+    closest_num = min(smallest_num)
+    ind = indexes_smallest[smallest_num.index(closest_num)]
+    return pi_estimate[ind]
 
-approach_pi()
 
-averages = []
-for i in range(1, 100):
-    gener_nums = random_generator(i, 1000)
-    averages.append(average(gener_nums))
-print("Smallest found average: ", min(averages), " Biggest found average: ", max(averages))
+test_generator()
+print()
+print("Average fluctuation: ", average_fluctuation())
+print("Pi-Approach:", approach_pi(), "Actual Pi:", math.pi)
+
