@@ -17,7 +17,7 @@ def forward_euler():
     h=0.1
     g=9.81
     friction = 0.1
-    stretch = 4
+    stretch = .4
 
     num_steps = 50
     t = numpy.zeros(num_steps+1)
@@ -36,25 +36,6 @@ def forward_euler():
 
     return t,x,v
 
-def forward_euler_springfriction():
-    h=0.1
-    g=9.81
-    friction = 0.1
-    stretch = 4
-
-    num_steps = 50
-    t = numpy.zeros(num_steps+1)
-    x = numpy.zeros(num_steps+1)
-    v = numpy.zeros(num_steps+1)
-
-
-    for step in range(num_steps):
-        # schrijf hier code voor Euler-integratie
-        t[step+1] = (step + 1) * h
-        x[step + 1] = x[step] + v[step]*h
-        v[step+1] = spring_friction(h, g, x, v, step, stretch, friction)
-
-    return t,x,v
 
 
 
