@@ -3,6 +3,7 @@ import scipy.stats as st
 import random
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 # UTILITY FUNCTIONS
 def average(arr):
@@ -71,8 +72,9 @@ def approach_pi():
     indexes_smallest = []
 
     for i in range(1, 100000):
-        x = random_generator(i/10, 1)
-        y = random_generator(i+.1/10, 1)
+        #seed wordt gedeeld door 10: te grote seed zorgt ervoor dat de generator slechter presteerd
+        x = random_generator(i/10, 1) #x en y krijgen beide net een andere seed
+        y = random_generator(i+.1/10, 1) #omdat je anders precies hetzelfde getal krijgt
 
         if math.sqrt(x[0]**2 + y[0]**2) <= 1:
             C += 1
@@ -90,6 +92,8 @@ def approach_pi():
 
 test_generator()
 print()
-print("Average fluctuation: ", average_fluctuation())
+print("Average fluctuation from seed 1 to 100: ", average_fluctuation())
 print("Pi-Approach:", approach_pi(), "Actual Pi:", math.pi)
 
+plt.hist(random_generator(600, 1000))
+plt.show()
